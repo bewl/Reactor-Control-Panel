@@ -133,6 +133,12 @@ void tick() {
     return;
   }
 
+  // ---- Heat emergency check ----
+  // If stabilizing and heat reaches critical, trigger meltdown automatically
+  if (ReactorStateMachine::getMode() == MODE_STABILIZING && ReactorHeat::getLevel() >= 11.5f) {
+    ReactorStateMachine::abortStabilizingToMeltdown();
+  }
+
   // ---- Button -> Mode transitions ----
   if (overrideFell) {
     if (ReactorStateMachine::getMode() == MODE_STABLE)   ReactorStateMachine::enterArming();

@@ -14,8 +14,6 @@ const unsigned long MELTDOWN_COUNTDOWN_MS = 10000; // 10 seconds
 unsigned long meltdownTickAt = 0;
 bool          meltdownPhase  = false;
 unsigned long meltdownStart  = 0;
-int           lastCountdownSec = -1;
-unsigned long lastCountdownDrawAt = 0;
 
 // ======================= Pins =======================
 const uint8_t PIN_LED_MELTDOWN = 13;
@@ -57,14 +55,9 @@ void tick() {
     ReactorStateMachine::enterChaos();
     return;
   }
-
-  // Refresh countdown display ~5fps or when the second changes
-  int secRemain = (int)((MELTDOWN_COUNTDOWN_MS - elapsed + 999) / 1000); // ceil
-  if (secRemain != lastCountdownSec || (now - lastCountdownDrawAt) > 200) {
-    lastCountdownSec = secRemain;
-    lastCountdownDrawAt = now;
-    ReactorSequences::drawMeltdownCountdown();
-  }
+  
+  // Note: Countdown display is handled by ReactorUI/ReactorUIFrames
+  // based on meltdownStartAt timestamp, not by this module
 }
 
 } // namespace ReactorMeltdown
