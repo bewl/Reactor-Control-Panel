@@ -273,13 +273,12 @@ void Renderer::render(Mode mMode, const UIMetrics& m, bool muteActive) {
     case MODE_STARTUP: {
       // Radar sweep with progress indicators
       ReactorAnimations::drawRadarSweep(display, now, m.progress);
-      // Steps list on right side
+      // Steps text at bottom
       uint8_t step = (m.progress * 5) / 100;
       display.setTextSize(1);
       display.setTextColor(SSD1306_WHITE);
-      display.setCursor(70, 32);
-      display.print("STEP");
-      display.setCursor(70, 42);
+      display.setCursor(35, 56);
+      display.print("STEP ");
       display.print(step);
       display.print("/5");
     } break;
