@@ -61,33 +61,31 @@ void playFinalCountdown() {
   
   // At 90 BPM: quarter = 667ms, eighth = 333ms, triplet eighth = 222ms
   const Note melody[] = {
-    // Bar 1: Triplet figure on single note
-    {1047, 222},  // C#6 (triplet)
-    {880, 222},   // A5 (triplet)
-    {1047, 222},  // C#6 (triplet)
-    {880, 667},   // A5 (quarter)
-    
-    // Bar 2: Triplet + two eighths
-    {1047, 222},  // C#6 (triplet)
-    {880, 222},   // A5 (triplet)
-    {1047, 222},  // C#6 (triplet)
-    {880, 333},   // A5 (eighth)
-    {880, 333},   // A5 (eighth)
-    
-    // Bar 3: Triplet + eighth
-    {880, 222},   // A5 (triplet)
-    {1047, 222},  // C#6 (triplet)
-    {880, 222},   // A5 (triplet)
-    {880, 667},   // A5 (quarter)
-    
-    // Bar 4: Triplet + ascending sixteenth run
-    {1047, 222},  // C#6 (triplet)
-    {880, 222},   // A5 (triplet)
+    // Bar 1: C#-B-C#-F#
+    {1109, 222},  // C#6 (triplet)
     {988, 222},   // B5 (triplet)
-    {1047, 167},  // C#6 (sixteenth)
-    {1175, 167},  // D6 (sixteenth)
-    {1319, 167},  // E6 (sixteenth)
-    {1397, 167},  // F#6 (sixteenth)
+    {1109, 222},  // C#6 (triplet)
+    {740, 667},   // F#5 (quarter)
+    
+    // Bar 2: D-C#-D-C#-B
+    {1175, 222},  // D6 (triplet)
+    {1109, 222},  // C#6 (triplet)
+    {1175, 222},  // D6 (triplet)
+    {1109, 333},  // C#6 (eighth)
+    {988, 333},   // B5 (eighth)
+    
+    // Bar 3: D-C#-D-F#
+    {1175, 222},  // D6 (triplet)
+    {1109, 222},  // C#6 (triplet)
+    {1175, 222},  // D6 (triplet)
+    {740, 667},   // F#5 (quarter)
+    
+    // Bar 4: B-A-G#-B-A
+    {988, 222},   // B5 (triplet)
+    {880, 222},   // A5 (triplet)
+    {831, 222},   // G#5 (triplet)
+    {988, 333},   // B5 (eighth)
+    {880, 333},   // A5 (eighth)
   };
   
   const uint8_t numNotes = sizeof(melody) / sizeof(Note);
