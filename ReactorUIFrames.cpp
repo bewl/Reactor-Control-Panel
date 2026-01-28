@@ -153,9 +153,8 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       
       int seconds = (remain + 999) / 1000;  // Ceiling division to round up
       
-      // Clear and draw header bar
-      ReactorUI::uiTopBar();
-      ReactorUI::uiHeatBar();
+      // Render standard UI (header and heat bar)
+      ReactorUI::ui.render(MODE_MELTDOWN, m, isMuted());
       
       ReactorUI::display.setTextSize(3);
       ReactorUI::display.setTextColor(SSD1306_WHITE);
