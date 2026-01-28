@@ -53,52 +53,52 @@ void tickMute() {
 
 void playFinalCountdown() {
   // The ACTUAL "Final Countdown" keyboard motif by Europe
-  // Transcribed from the official sheet music
+  // Transcribed from the official sheet music at 90 BPM
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
   };
   
-  // F# minor key, 4/4 time - the iconic synth riff
+  // At 90 BPM: quarter note = 667ms, eighth = 333ms, sixteenth = 167ms
   const Note melody[] = {
     // Bar 1: F#m chord - main motif with grace notes
-    {740, 100},   // F#5 (grace note, quick)
-    {880, 100},   // A5 (grace note)
-    {740, 200},   // F#5 (main note)
-    {880, 200},   // A5
+    {740, 150},   // F#5 (grace note)
+    {880, 150},   // A5 (grace note)
+    {740, 333},   // F#5 (eighth note)
+    {880, 333},   // A5 (eighth)
     
-    {740, 100},   // F#5 (grace note)
-    {880, 100},   // A5 (grace note)
-    {740, 200},   // F#5
-    {880, 100},   // A5
-    {740, 200},   // F#5
-    {880, 200},   // A5
+    {740, 150},   // F#5 (grace note)
+    {880, 150},   // A5 (grace note)
+    {740, 333},   // F#5 (eighth)
+    {880, 150},   // A5 (grace note)
+    {740, 333},   // F#5 (eighth)
+    {880, 333},   // A5 (eighth)
     
     // Bar 2: D chord
-    {740, 100},   // F#5 (grace note)
-    {880, 100},   // A5 (grace note)
-    {740, 200},   // F#5
-    {880, 200},   // A5
-    {740, 150},   // F#5
-    {659, 150},   // E5
-    {587, 200},   // D5
+    {740, 150},   // F#5 (grace note)
+    {880, 150},   // A5 (grace note)
+    {740, 333},   // F#5 (eighth)
+    {880, 333},   // A5 (eighth)
+    {740, 250},   // F#5
+    {659, 250},   // E5
+    {587, 333},   // D5 (eighth)
     
     // Bar 3: Bm chord  
-    {740, 100},   // F#5 (grace note)
-    {880, 100},   // A5 (grace note)
-    {740, 200},   // F#5
-    {880, 200},   // A5
+    {740, 150},   // F#5 (grace note)
+    {880, 150},   // A5 (grace note)
+    {740, 333},   // F#5 (eighth)
+    {880, 333},   // A5 (eighth)
     
     // Bar 4: E chord - ending phrase
-    {740, 100},   // F#5 (grace note)
-    {880, 100},   // A5
-    {740, 200},   // F#5
-    {880, 150},   // A5
-    {988, 150},   // B5
-    {1047, 150},  // C#6
-    {587, 200},   // D5
-    {659, 300},   // E5 (held)
-    {0, 200},     // Final rest
+    {740, 150},   // F#5 (grace note)
+    {880, 150},   // A5 (grace note)
+    {740, 333},   // F#5 (eighth)
+    {880, 250},   // A5
+    {988, 250},   // B5
+    {1047, 250},  // C#6
+    {587, 333},   // D5 (eighth)
+    {659, 667},   // E5 (quarter note, held)
+    {0, 333},     // Rest
   };
   
   const uint8_t numNotes = sizeof(melody) / sizeof(Note);
