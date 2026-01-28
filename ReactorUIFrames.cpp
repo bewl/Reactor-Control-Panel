@@ -106,9 +106,9 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       ReactorUI::display.setCursor(x, y);
       ReactorUI::display.println(buf);
       
-      // Status text below
+      // Status text below with padding
       ReactorUI::display.setTextSize(1);
-      ReactorUI::display.setCursor(35, 56);
+      ReactorUI::display.setCursor(35, 59);
       ReactorUI::display.println("ARMING");
       
       // Animations
@@ -188,9 +188,9 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       ReactorUI::display.setCursor(x, y);
       ReactorUI::display.println(buf);
       
-      // Status text below
+      // Status text below with padding
       ReactorUI::display.setTextSize(1);
-      ReactorUI::display.setCursor(30, 56);
+      ReactorUI::display.setCursor(30, 59);
       ReactorUI::display.println("MELTDOWN");
       
       // Animations
