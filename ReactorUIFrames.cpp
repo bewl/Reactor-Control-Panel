@@ -153,6 +153,10 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       
       int seconds = (remain + 999) / 1000;  // Ceiling division to round up
       
+      // Clear and draw header bar
+      ReactorUI::uiTopBar();
+      ReactorUI::uiHeatBar();
+      
       ReactorUI::display.setTextSize(3);
       ReactorUI::display.setTextColor(SSD1306_WHITE);
       char buf[4];
@@ -175,6 +179,8 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       ReactorAnimations::drawChaoticWave(ReactorUI::display, now);
       ReactorAnimations::drawPulsingBorder(ReactorUI::display, now, 100);
       ReactorAnimations::drawGeigerFlashes(ReactorUI::display, now, 90);
+      
+      ReactorUI::display.display();
     } break;
 
     case MODE_CHAOS:
