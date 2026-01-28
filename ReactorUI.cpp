@@ -277,7 +277,7 @@ void Renderer::render(Mode mMode, const UIMetrics& m, bool muteActive) {
       uint8_t step = (m.progress * 5) / 100;
       display.setTextSize(1);
       display.setTextColor(SSD1306_WHITE);
-      display.setCursor(35, 59);
+      display.setCursor(35, 57);
       display.print("STEP ");
       display.print(step);
       display.print("/5");
