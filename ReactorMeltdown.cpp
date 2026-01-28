@@ -32,8 +32,6 @@ void reset() {
   meltdownPhase = false;
   meltdownTickAt = 0;
   meltdownStart = millis();
-  lastCountdownSec = -1;
-  lastCountdownDrawAt = 0;
 }
 
 void tick() {
