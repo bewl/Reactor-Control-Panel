@@ -5,6 +5,7 @@
 namespace ReactorStateMachine {
   // State variables (accessible for timing checks in ReactorSystem)
   extern unsigned long armingStartAt;      // Arming countdown timer (5 seconds)
+  extern unsigned long criticalStartAt;    // Critical warning timer (3 seconds)
   extern unsigned long stabStartAt;
   extern unsigned long freezeStartAt;
   extern unsigned long startupStartAt;
@@ -17,6 +18,7 @@ namespace ReactorStateMachine {
   // State transitions
   void enterStable();
   void enterArming();
+  void enterCritical();
   void enterMeltdown();
   void enterStabilizing();
   void enterStartup();

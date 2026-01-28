@@ -9,6 +9,7 @@ namespace ReactorSequences {
 
 // Forward declarations of internal tick functions
 void tickArming(unsigned long now);
+void tickCritical(unsigned long now);
 void tickStabilizing(unsigned long now);
 void tickFreezedown(unsigned long now);
 void tickStartup(unsigned long now);
@@ -26,6 +27,11 @@ void drawShutdownStep();
 const unsigned long ARM_STEP_MS   = 500;
 const uint8_t       ARM_BLINKS    = 5;
 const unsigned int  ARM_CHIRP_HZ  = 1600;
+
+// Critical warning (rapid alarm)
+const unsigned long CRITICAL_ALARM_PERIOD_MS = 150;
+const int           CRITICAL_ALARM_LOW_HZ    = 1200;
+const int           CRITICAL_ALARM_HIGH_HZ   = 1800;
 
 // Freezedown Sequence
 const unsigned long FREEZE_STEP_MS        = 1200;
@@ -98,6 +104,10 @@ const char* const SHUTDOWN_MSGS[SHUTDOWN_TOTAL_STEPS] = {
 // Arming state
 uint8_t       armStep = 0;
 unsigned long armTickAt = 0;
+
+// Critical warning state
+unsigned long criticalAlarmAt = 0;
+bool          criticalAlarmHigh = false;
 
 // Stabilizing state
 uint8_t       stabStep = 0;
@@ -235,6 +245,9 @@ void tick(Mode mode) {
     case MODE_ARMING:
       tickArming(now);
       break;
+    case MODE_CRITICAL:
+      tickCritical(now);
+      break;
     case MODE_STABILIZING:
       tickStabilizing(now);
       break;
@@ -277,6 +290,19 @@ void tickArming(unsigned long now) {
     uint8_t num = ARM_BLINKS - ((armStep - 1) / 2);
     if (num >= 1) drawArmingNumber(num);
   }
+}
+
+void tickCritical(unsigned long now) {
+  // Rapid alternating alarm (urgent warning)
+  if (now - criticalAlarmAt >= CRITICAL_ALARM_PERIOD_MS) {
+    criticalAlarmAt = now;
+    criticalAlarmHigh = !criticalAlarmHigh;
+    buzzerTone(criticalAlarmHigh ? CRITICAL_ALARM_HIGH_HZ : CRITICAL_ALARM_LOW_HZ);
+  }
+  
+  // Rapid LED flashing
+  bool ledOn = (now / 150) % 2 == 0;
+  digitalWrite(PIN_LED_MELTDOWN, ledOn ? HIGH : LOW);
 }
 
 void tickStabilizing(unsigned long now) {

@@ -152,6 +152,78 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       ReactorAnimations::drawCornerBrackets(ReactorUI::display, 2);
     } break;
 
+    case MODE_CRITICAL: {
+      // Display 3-second critical warning with intense effects
+      unsigned long now = millis();
+      unsigned long elapsed = now - ReactorStateMachine::criticalStartAt;
+      long remaining = 3000 - (long)elapsed;
+      if (remaining < 0) remaining = 0;
+      
+      int seconds = (remaining + 999) / 1000;  // Ceiling division to round up
+      
+      // Rapid flashing (200ms cycle)
+      bool flashOn = (now / 200) % 2 == 0;
+      
+      // Clear and start fresh
+      ReactorUI::display.clearDisplay();
+      ReactorUI::display.setTextColor(SSD1306_WHITE);
+      
+      // Flashing header bar
+      ReactorUI::display.drawLine(0, 10, ReactorUI::display.width()-1, 10, SSD1306_WHITE);
+      if (flashOn) {
+        ReactorUI::display.fillRect(0, 0, ReactorUI::display.width(), 10, SSD1306_WHITE);
+        ReactorUI::display.setTextColor(SSD1306_BLACK);
+      }
+      ReactorUI::display.setTextSize(1);
+      ReactorUI::display.setCursor(2, 1);
+      ReactorUI::display.print("! CRITICAL !");
+      ReactorUI::display.setTextColor(SSD1306_WHITE);
+      
+      // Draw heat bar (near max)
+      const uint8_t topY = 14;
+      const uint8_t hb = 8;
+      const uint8_t leftX = 8;
+      const uint8_t rightX = ReactorUI::display.width() - 8;
+      const uint8_t wb = rightX - leftX;
+      ReactorUI::display.drawRect(leftX, topY, wb, hb, SSD1306_WHITE);
+      uint8_t fillWidth = (wb - 2) * 95 / 100;  // 95% full
+      if (flashOn) {
+        ReactorUI::display.fillRect(leftX+1, topY+1, fillWidth, hb-2, SSD1306_WHITE);
+      }
+      for (int i=0;i<=10;i++) {
+        int xp = leftX + (int)((wb-2) * i / 10.0f) + 1;
+        ReactorUI::display.drawPixel(xp, topY + hb + 1, SSD1306_WHITE);
+      }
+      
+      // Large countdown in center
+      ReactorUI::display.setTextSize(4);
+      char buf[4];
+      snprintf(buf, sizeof(buf), "%d", seconds);
+      int16_t x1, y1;
+      uint16_t bw, bh;
+      ReactorUI::display.getTextBounds(buf, 0, 0, &x1, &y1, &bw, &bh);
+      int16_t xc = (ReactorUI::display.width() - (int)bw) / 2;
+      int16_t yc = 32;
+      ReactorUI::display.setCursor(xc, yc);
+      ReactorUI::display.println(buf);
+      
+      // Warning text
+      ReactorUI::display.setTextSize(1);
+      ReactorUI::display.setCursor(18, 57);
+      if (flashOn) {
+        ReactorUI::display.println(">>> WARNING <<<");
+      } else {
+        ReactorUI::display.println("MELTDOWN IMMINENT");
+      }
+      
+      // Intense animations
+      ReactorAnimations::drawPulsingBorder(ReactorUI::display, now, 100);
+      ReactorAnimations::drawCornerBrackets(ReactorUI::display, 4);
+      ReactorAnimations::drawGeigerFlashes(ReactorUI::display, now, 95);
+      
+      ReactorUI::display.display();
+    } break;
+
     case MODE_STARTUP: {
       uint8_t step = ReactorSequences::getStep(MODE_STARTUP);
       uint8_t total = ReactorSequences::getTotalSteps(MODE_STARTUP);

@@ -152,6 +152,7 @@ void tick() {
   if (stabilizeFell) {
     if (ReactorStateMachine::getMode() == MODE_STABLE)        ReactorStateMachine::enterFreezedown(); // shortcut
     else if (ReactorStateMachine::getMode() == MODE_ARMING)   ReactorStateMachine::enterStabilizing();
+    else if (ReactorStateMachine::getMode() == MODE_CRITICAL) ReactorStateMachine::enterStabilizing();
     else if (ReactorStateMachine::getMode() == MODE_MELTDOWN) ReactorStateMachine::enterStabilizing();
     // In CHAOS, stabilize is ignored (only Startup can recover)
   }
@@ -183,6 +184,7 @@ void tick() {
   // ---- Tick current mode ----
   switch (ReactorStateMachine::getMode()) {
     case MODE_ARMING:       break;
+    case MODE_CRITICAL:     break;
     case MODE_MELTDOWN:     ReactorMeltdown::tick(); break;
     case MODE_STABILIZING:  break;
     case MODE_STARTUP:      break;
@@ -199,10 +201,18 @@ void tick() {
   // ---- Check for sequence completions ----
   unsigned long now = millis();
   
-  // Arming auto-completes after 5 seconds -> enters MELTDOWN
+  // Arming auto-completes after 5 seconds -> enters CRITICAL
   if (ReactorStateMachine::getMode() == MODE_ARMING) {
     unsigned long elapsed = now - ReactorStateMachine::armingStartAt;
     if (elapsed >= 5000) {  // 5 second countdown
+      ReactorStateMachine::enterCritical();
+    }
+  }
+  
+  // Critical auto-completes after 3 seconds -> enters MELTDOWN
+  if (ReactorStateMachine::getMode() == MODE_CRITICAL) {
+    unsigned long elapsed = now - ReactorStateMachine::criticalStartAt;
+    if (elapsed >= 3000) {  // 3 second critical warning
       ReactorStateMachine::enterMeltdown();
     }
   }

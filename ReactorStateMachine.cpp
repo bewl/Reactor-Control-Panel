@@ -28,6 +28,7 @@ Mode currentMode = MODE_STABLE;
 
 // Sequence timing
 unsigned long armingStartAt = 0;    // 5 second countdown
+unsigned long criticalStartAt = 0;  // 3 second critical warning
 unsigned long stabStartAt = 0;
 unsigned long freezeStartAt = 0;
 unsigned long startupStartAt = 0;
@@ -63,6 +64,18 @@ void enterArming() {
 
   digitalWrite(PIN_LED_STABLE, LOW);
   digitalWrite(PIN_LED_MELTDOWN, LOW);
+  digitalWrite(PIN_LED_STARTUP, LOW);
+  digitalWrite(PIN_LED_FREEZEDOWN, LOW);
+  buzzerOff();
+}
+
+void enterCritical() {
+  ReactorSweep::stop();
+  currentMode = MODE_CRITICAL;
+  criticalStartAt = millis();  // Start 3 second critical warning
+
+  digitalWrite(PIN_LED_STABLE, LOW);
+  digitalWrite(PIN_LED_MELTDOWN, HIGH);  // Meltdown LED on during critical
   digitalWrite(PIN_LED_STARTUP, LOW);
   digitalWrite(PIN_LED_FREEZEDOWN, LOW);
   buzzerOff();
