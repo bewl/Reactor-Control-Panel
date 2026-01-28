@@ -98,8 +98,6 @@ static void uiHeatBar(const UIMetrics& m) {
     int x = leftX + (int)((w-2) * i / 10.0f) + 1;
     display.drawPixel(x, topY + h + 1, SSD1306_WHITE);
   }
-
-  uiDrawIcon((SCREEN_WIDTH-8)/2, topY + h + 3, GLYPH_SWIRL);
 }
 
 static void uiStartupSteps(uint8_t progress) {
@@ -308,7 +306,7 @@ void Renderer::render(Mode mMode, const UIMetrics& m, bool muteActive) {
       int16_t x1, y1; uint16_t w, h;
       const char* label = "Powering down";
       display.getTextBounds((char*)label, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor((SCREEN_WIDTH - w) / 2, 45);
+      display.setCursor((SCREEN_WIDTH - w) / 2, 24);
       display.println(label);
       // Progress bar
       const uint8_t pbY = SCREEN_HEIGHT - 6;
