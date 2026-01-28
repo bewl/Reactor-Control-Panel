@@ -53,34 +53,41 @@ void tickMute() {
 
 void playFinalCountdown() {
   // The iconic "Final Countdown" synth riff by Europe
-  // Frequencies and durations for the classic melody motif
+  // Much simpler and more recognizable version
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
   };
   
   const Note melody[] = {
-    // Main riff - iconic descending pattern
-    {659, 200},   // E5
-    {659, 200},   // E5
-    {659, 200},   // E5
-    {1047, 200},  // C6
-    {659, 200},   // E5
-    {1047, 200},  // C6
-    {523, 200},   // C5
-    {494, 200},   // B4
-    {494, 200},   // B4
-    {494, 200},   // B4
+    // Main synth motif - the classic repeating pattern
+    {784, 250},   // G5 - High note
+    {784, 250},   // G5
+    {784, 250},   // G5
+    {659, 250},   // E5 - Drop down
+    {784, 250},   // G5 - Back up
+    {784, 250},   // G5
+    {784, 250},   // G5
+    {659, 250},   // E5
+    {0, 150},     // Rest
+    
+    // Repeat pattern slightly lower
+    {784, 250},   // G5
+    {784, 250},   // G5
+    {784, 250},   // G5
+    {659, 250},   // E5
+    {784, 250},   // G5
+    {784, 250},   // G5
+    {784, 250},   // G5
+    {659, 250},   // E5
+    {0, 150},     // Rest
+    
+    // One more time with a finish
     {784, 200},   // G5
-    {880, 200},   // A5
+    {784, 200},   // G5
+    {784, 200},   // G5
     {659, 200},   // E5
-    {659, 200},   // E5
-    {659, 200},   // E5
-    {1047, 200},  // C6
-    {659, 200},   // E5
-    {1047, 200},  // C6
-    {523, 200},   // C5
-    {494, 200},   // B4
+    {880, 300},   // A5 - High finish
     {0, 400},     // Rest for dramatic pause
   };
   
