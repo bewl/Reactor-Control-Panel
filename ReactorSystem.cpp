@@ -196,11 +196,11 @@ void tick() {
   // ---- Check for sequence completions ----
   unsigned long now = millis();
   
-  // Arming auto-completes after 5 seconds -> enters STABILIZING
+  // Arming auto-completes after 5 seconds -> enters MELTDOWN
   if (ReactorStateMachine::getMode() == MODE_ARMING) {
     unsigned long elapsed = now - ReactorStateMachine::armingStartAt;
     if (elapsed >= 5000) {  // 5 second countdown
-      ReactorStateMachine::enterStabilizing();
+      ReactorStateMachine::enterMeltdown();
     }
   }
   
