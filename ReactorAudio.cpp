@@ -52,42 +52,53 @@ void tickMute() {
 }
 
 void playFinalCountdown() {
-  // The ACTUAL iconic "Final Countdown" keyboard riff by Europe
-  // This is the famous opening synth fanfare
+  // The ACTUAL "Final Countdown" keyboard motif by Europe
+  // Transcribed from the official sheet music
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
   };
   
-  // Key of F# minor - the real melody!
+  // F# minor key, 4/4 time - the iconic synth riff
   const Note melody[] = {
-    // First phrase: "doo doo doo DOO doo" 
-    {740, 200},   // F#5
-    {740, 200},   // F#5  
-    {587, 200},   // D5
-    {554, 400},   // C#5 (held longer)
-    {0, 100},     // Short rest
+    // Bar 1: F#m chord - main motif with grace notes
+    {740, 100},   // F#5 (grace note, quick)
+    {880, 100},   // A5 (grace note)
+    {740, 200},   // F#5 (main note)
+    {880, 200},   // A5
     
-    // Second phrase: descending pattern
+    {740, 100},   // F#5 (grace note)
+    {880, 100},   // A5 (grace note)
     {740, 200},   // F#5
-    {659, 200},   // E5
-    {587, 200},   // D5  
-    {554, 400},   // C#5 (held)
-    {0, 150},     // Rest
+    {880, 100},   // A5
+    {740, 200},   // F#5
+    {880, 200},   // A5
     
-    // Repeat first phrase
+    // Bar 2: D chord
+    {740, 100},   // F#5 (grace note)
+    {880, 100},   // A5 (grace note)
     {740, 200},   // F#5
-    {740, 200},   // F#5
+    {880, 200},   // A5
+    {740, 150},   // F#5
+    {659, 150},   // E5
     {587, 200},   // D5
-    {554, 400},   // C#5
-    {0, 100},     // Short rest
     
-    // Final phrase with slight variation
+    // Bar 3: Bm chord  
+    {740, 100},   // F#5 (grace note)
+    {880, 100},   // A5 (grace note)
     {740, 200},   // F#5
-    {659, 200},   // E5
+    {880, 200},   // A5
+    
+    // Bar 4: E chord - ending phrase
+    {740, 100},   // F#5 (grace note)
+    {880, 100},   // A5
+    {740, 200},   // F#5
+    {880, 150},   // A5
+    {988, 150},   // B5
+    {1047, 150},  // C#6
     {587, 200},   // D5
-    {494, 600},   // B4 (finish note, held longer)
-    {0, 300},     // Final rest
+    {659, 300},   // E5 (held)
+    {0, 200},     // Final rest
   };
   
   const uint8_t numNotes = sizeof(melody) / sizeof(Note);
