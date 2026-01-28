@@ -52,49 +52,55 @@ void tickMute() {
 }
 
 void playFinalCountdown() {
-  // Transcribed EXACTLY from the provided sheet music
-  // 90 BPM, 4/4 time, F# minor
+  // The "Final Countdown" keyboard motif by Europe
+  // Transcribed from sheet music - 90 BPM, 4/4 time, F# minor
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
   };
   
-  // At 90 BPM: quarter = 667ms, eighth = 333ms, sixteenth = 167ms, grace = ~80ms
+  // At 90 BPM: quarter = 667ms, eighth = 333ms, sixteenth = 167ms
   const Note melody[] = {
-    // Bar 1 (F#m): Grace notes + repeated A notes
-    {880, 80},    // A5 (grace)
-    {988, 80},    // B5 (grace) 
-    {1047, 80},   // C6 (grace)
-    {880, 333},   // A5 (eighth)
+    // Bar 1 (F#m): Sixteenth note runs
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
     
-    {880, 80},    // A5 (grace)
-    {988, 80},    // B5 (grace)
-    {1047, 80},   // C6 (grace)
-    {880, 333},   // A5 (eighth)
-    {880, 333},   // A5 (eighth)
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
     
-    // Bar 2 (D): Grace notes + descent
-    {880, 80},    // A5 (grace)
-    {988, 80},    // B5 (grace)
-    {1047, 80},   // C6 (grace)
-    {880, 333},   // A5 (eighth)
-    {988, 333},   // B5 (eighth)
-    {1047, 333},  // C6 (eighth)
+    // Bar 2 (D): Pattern continues
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
     
-    // Bar 3 (Bm): Grace notes + repeated
-    {880, 80},    // A5 (grace)
-    {988, 80},    // B5 (grace)
-    {1047, 80},   // C6 (grace)
-    {880, 333},   // A5 (eighth)
+    // Bar 3 (Bm): Continues
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
     
-    // Bar 4 (E): Grace notes + ascending run
-    {880, 80},    // A5 (grace)
-    {988, 80},    // B5 (grace)
-    {1047, 80},   // C6 (grace)
-    {880, 333},   // A5 (eighth)
-    {988, 333},   // B5 (eighth)
-    {1047, 333},  // C6 (eighth)
-    {1175, 333},  // D6 (eighth)
+    // Bar 4 (E): Final ascending run
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {880, 167},   // A5 (sixteenth)
+    {988, 167},   // B5 (sixteenth)
+    {1047, 167},  // C#6 (sixteenth)
+    {1175, 167},  // D6 (sixteenth)
+    {1319, 167},  // E6 (sixteenth)
     {1319, 667},  // E6 (quarter - held)
   };
   
