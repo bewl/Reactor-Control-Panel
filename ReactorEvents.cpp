@@ -59,6 +59,29 @@ bool isActive() {
   return activeEvent != EVENT_NONE;
 }
 
+bool handleInput(bool overrideFell, bool stabilizeFell, bool startupFell,
+                 bool freezedownFell, bool shutdownFell, bool eventFell) {
+  if (activeEvent == EVENT_NONE) return false;
+
+  char pressed = 0;
+  if (overrideFell)   pressed = 'O';
+  if (stabilizeFell)  pressed = 'S';
+  if (startupFell)    pressed = 'U';
+  if (freezedownFell) pressed = 'F';
+  if (shutdownFell)   pressed = 'D';
+  if (eventFell)      pressed = 'E';
+
+  if (pressed == 0) return false;
+
+  if (pressed == requiredButton) {
+    resolve();
+    return true;
+  }
+
+  // Wrong button pressed during event - consume input
+  return true;
+}
+
 void begin() {
   activeEvent = EVENT_NONE;
   requiredButton = 0;

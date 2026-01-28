@@ -261,10 +261,8 @@ void finishFreezedownToStable() {
   // This will be called from ReactorSystem to transition
 }
 
-} // namespace ReactorSequences
-
 // ======================= Internal Tick Functions (file scope) =======================
-void ReactorSequences::tickArming(unsigned long now) {
+void tickArming(unsigned long now) {
   if (now - armTickAt < ARM_STEP_MS) return;
   armTickAt = now;
 
@@ -281,7 +279,7 @@ void ReactorSequences::tickArming(unsigned long now) {
   }
 }
 
-void ReactorSequences::tickStabilizing(unsigned long now) {
+void tickStabilizing(unsigned long now) {
   // Blink stable LED with a 1s period (toggle every 500ms)
   if (now - stabLedAt >= (STAB_LED_PERIOD_MS / 2)) {
     stabLedAt = now;
@@ -307,7 +305,7 @@ void ReactorSequences::tickStabilizing(unsigned long now) {
   }
 }
 
-void ReactorSequences::tickStartup(unsigned long now) {
+void tickStartup(unsigned long now) {
   unsigned long elapsedSeq = now - startupStart;
   unsigned long totalStartupMs = (unsigned long)STARTUP_TOTAL_STEPS * STARTUP_STEP_MS;
   
@@ -335,7 +333,7 @@ void ReactorSequences::tickStartup(unsigned long now) {
   }
 }
 
-void ReactorSequences::tickFreezedown(unsigned long now) {
+void tickFreezedown(unsigned long now) {
   // Pulse the FREEZEDOWN LED slowly
   if (now - freezeLedAt >= (FREEZE_LED_PERIOD_MS / 2)) {
     freezeLedAt = now;
@@ -360,7 +358,7 @@ void ReactorSequences::tickFreezedown(unsigned long now) {
   }
 }
 
-void ReactorSequences::tickShutdown(unsigned long now) {
+void tickShutdown(unsigned long now) {
   unsigned long elapsedSeq = now - shutdownStart;
   unsigned long totalShutdownMs = (unsigned long)SHUTDOWN_TOTAL_STEPS * SHUTDOWN_STEP_MS;
   
@@ -385,7 +383,7 @@ void ReactorSequences::tickShutdown(unsigned long now) {
 }
 
 // ======================= Drawing Functions =======================
-void ReactorSequences::drawArmingNumber(uint8_t n) {
+void drawArmingNumber(uint8_t n) {
   ReactorUI::UIMetrics m;
   m.heatPercent = currentHeatPercent();
   m.warning = false;
@@ -393,7 +391,7 @@ void ReactorSequences::drawArmingNumber(uint8_t n) {
   ReactorUI::ui.render(MODE_ARMING, m, isMuted());
 }
 
-void ReactorSequences::drawStabilizingStep() {
+void drawStabilizingStep() {
   if (stabStep == lastShownStabStep) return;
   lastShownStabStep = stabStep;
   uint8_t step = stabStep;
@@ -405,7 +403,7 @@ void ReactorSequences::drawStabilizingStep() {
   ReactorUI::ui.render(MODE_STABILIZING, m, isMuted());
 }
 
-void ReactorSequences::drawFreezedownStep() {
+void drawFreezedownStep() {
   if (freezeStep == lastShownFreezeStep) return;
   lastShownFreezeStep = freezeStep;
   uint8_t step = freezeStep;
@@ -418,7 +416,7 @@ void ReactorSequences::drawFreezedownStep() {
   ReactorUI::ui.render(MODE_FREEZEDOWN, m, isMuted());
 }
 
-void ReactorSequences::drawStartupStep() {
+void drawStartupStep() {
   if (startupStep == lastShownStartupStep) return;
   lastShownStartupStep = startupStep;
   uint8_t step = startupStep;
@@ -430,7 +428,7 @@ void ReactorSequences::drawStartupStep() {
   ReactorUI::ui.render(MODE_STARTUP, m, isMuted());
 }
 
-void ReactorSequences::drawShutdownStep() {
+void drawShutdownStep() {
   if (shutdownStep == lastShownShutdownStep) return;
   lastShownShutdownStep = shutdownStep;
   uint8_t step = shutdownStep;
@@ -442,7 +440,7 @@ void ReactorSequences::drawShutdownStep() {
   ReactorUI::ui.render(MODE_SHUTDOWN, m, isMuted());
 }
 
-void ReactorSequences::drawMeltdownCountdown() {
+void drawMeltdownCountdown() {
   // Called from ReactorSystem during meltdown
   // This will need to be updated in ReactorSystem
 }

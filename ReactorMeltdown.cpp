@@ -1,6 +1,7 @@
 #include "ReactorMeltdown.h"
 #include "ReactorAudio.h"
 #include "ReactorSequences.h"
+#include "ReactorStateMachine.h"
 
 namespace ReactorMeltdown {
 
@@ -22,11 +23,6 @@ const uint8_t PIN_LED_MELTDOWN = 13;
 // ======================= Helpers =======================
 inline void buzzerOff() { ReactorAudio::off(); }
 inline void buzzerTone(unsigned int hz) { ReactorAudio::toneHz(hz); }
-
-// Forward declarations for ReactorSystem transitions
-namespace ReactorSystem {
-  void enterChaos();
-}
 
 // ======================= API =======================
 void begin() {
@@ -58,7 +54,7 @@ void tick() {
   unsigned long elapsed = now - meltdownStart;
   if (elapsed >= MELTDOWN_COUNTDOWN_MS) {
     buzzerOff();
-    ReactorSystem::enterChaos();
+    ReactorStateMachine::enterChaos();
     return;
   }
 
