@@ -1,4 +1,5 @@
 #include "ReactorUI.h"
+#include "ReactorAnimations.h"
 
 #include <Wire.h>
 #include <math.h>
@@ -198,6 +199,7 @@ bool begin() {
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     return false;
   }
+  ReactorAnimations::begin();
   display.clearDisplay();
   display.display();
   return true;
@@ -227,45 +229,100 @@ void Renderer::render(Mode mMode, const UIMetrics& m, bool muteActive) {
   uiHeatBar(heatM);
 
   switch (mMode) {
-    case MODE_STABLE:
-      uiStablePulse(now);
+    case MODE_STABLE: {
+      // Draw reactor core centerpiece with decay particles
+      ReactorAnimations::drawReactorCore(display, now, m.heatPercent);
+      ReactorAnimations::drawDecayParticles(display, now);
       uiStableStatusText();
       if (((now/750) % 2) == 0) uiDrawIcon(4, UI_TOP_H + 2, GLYPH_POWER);
-      break;
-    case MODE_ARMING:
+      // Add subtle Geiger clicks
+      ReactorAnimations::drawGeigerFlashes(display, now, m.heatPercent / 5);
+    } break;
+
+    case MODE_ARMING: {
+      // Large arming number with pulsing border
       uiArmingNumber((uint8_t)constrain((m.progress>0)?m.progress:0, 0, 99));
-      break;
-    case MODE_MELTDOWN:
+      ReactorAnimations::drawPulsingBorder(display, now, 80);
+      // Bottom corner brackets for intensity
+      ReactorAnimations::drawCornerBrackets(display, 2);
+    } break;
+
+    case MODE_MELTDOWN: {
+      // Explosive sparks everywhere + chaotic wave
       uiMeltdownCountdown(m);
+      ReactorAnimations::drawMeltdownSparks(display, now);
+      ReactorAnimations::drawChaoticWave(display, now);
       if (((now/200) % 2) == 0) uiDrawIcon(4, UI_TOP_H + 2, GLYPH_WARN);
-      break;
-    case MODE_STABILIZING:
-      uiStabilizingWave(now, m.progress);
-      break;
-    case MODE_STARTUP:
-      uiStartupSteps(m.progress);
-      break;
+      // Pulsing danger border
+      ReactorAnimations::drawPulsingBorder(display, now, 100);
+      // Intense Geiger flashing
+      ReactorAnimations::drawGeigerFlashes(display, now, 90);
+    } break;
+
+    case MODE_STABILIZING: {
+      // Interference wave showing stabilization convergence
+      ReactorAnimations::drawInterferenceWave(display, now, m.progress);
+      ReactorAnimations::drawCoolantFlow(display, now);
+      // Progress bar at bottom
+      const uint8_t pbY = SCREEN_HEIGHT - 6;
+      display.drawLine(8, pbY, 8 + (int)((SCREEN_WIDTH-16) * m.progress / 100.0f), pbY, SSD1306_WHITE);
+      // Spinning indicator in corner
+      ReactorAnimations::drawSpinner(display, SCREEN_WIDTH - 12, 15, now);
+    } break;
+
+    case MODE_STARTUP: {
+      // Radar sweep with progress indicators
+      ReactorAnimations::drawRadarSweep(display, now, m.progress);
+      // Steps list on right side
+      uint8_t step = (m.progress * 5) / 100;
+      display.setTextSize(1);
+      display.setTextColor(SSD1306_WHITE);
+      display.setCursor(70, 32);
+      display.print("STEP");
+      display.setCursor(70, 42);
+      display.print(step);
+      display.print("/5");
+    } break;
+
     case MODE_FREEZEDOWN: {
+      // Snowflake particles with status text
+      ReactorAnimations::drawFreezeParticles(display, now);
       const uint8_t midTop = UI_TOP_H + 4 + 8 + 3 + 8;
       display.setTextSize(1);
       display.setTextColor(SSD1306_WHITE);
       int16_t x1, y1; uint16_t w, h;
-      display.getTextBounds("The core is", 0, 0, &x1, &y1, &w, &h);
+      display.getTextBounds("Core freezing", 0, 0, &x1, &y1, &w, &h);
       display.setCursor((SCREEN_WIDTH - w) / 2, midTop + 8);
-      display.println("The core is");
-      display.getTextBounds("freezing", 0, 0, &x1, &y1, &w, &h);
-      display.setCursor((SCREEN_WIDTH - w) / 2, midTop + 20);
-      display.println("freezing");
+      display.println("Core freezing");
+      // Bottom progress bar
+      const uint8_t pbY = SCREEN_HEIGHT - 6;
+      display.drawLine(8, pbY, 8 + (int)((SCREEN_WIDTH-16) * m.progress / 100.0f), pbY, SSD1306_WHITE);
+      // Spinning frost effect
+      ReactorAnimations::drawSpinner(display, SCREEN_WIDTH - 12, 15, now);
+    } break;
+
+    case MODE_SHUTDOWN: {
+      // Energy bars winding down with chaotic wave fading
+      ReactorAnimations::drawBars(display, 30, 18, now, 100 - m.progress);
+      display.setTextSize(1);
+      display.setTextColor(SSD1306_WHITE);
+      int16_t x1, y1; uint16_t w, h;
+      const char* label = "Powering down";
+      display.getTextBounds((char*)label, 0, 0, &x1, &y1, &w, &h);
+      display.setCursor((SCREEN_WIDTH - w) / 2, 24);
+      display.println(label);
+      // Progress bar
       const uint8_t pbY = SCREEN_HEIGHT - 6;
       display.drawLine(8, pbY, 8 + (int)((SCREEN_WIDTH-16) * m.progress / 100.0f), pbY, SSD1306_WHITE);
     } break;
-    case MODE_SHUTDOWN:
-      uiStabilizingWave(now, m.progress);
-      break;
+
     case MODE_DARK:
     case MODE_CHAOS:
       break;
   }
+
+  // Optional: add subtle scan lines for retro effect (can disable if too intense)
+  // ReactorAnimations::drawScanLines(display, now);
 
   display.display();
 }

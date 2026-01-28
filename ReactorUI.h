@@ -3,6 +3,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "ReactorTypes.h"
+#include "ReactorAnimations.h"
 
 namespace ReactorUI {
 
