@@ -90,6 +90,9 @@ void begin() {
     while (true) { /* halt if OLED missing */ }
   }
 
+  // Show power-on splash screen
+  ReactorUIFrames::drawPowerOnSplash();
+
   // Ensure quiet baseline
   ReactorAudio::off();
 

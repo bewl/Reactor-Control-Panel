@@ -41,6 +41,63 @@ void drawCenteredBig(const char* txt, uint8_t size) {
   ReactorUI::display.display();
 }
 
+void drawPowerOnSplash() {
+  unsigned long startTime = millis();
+  const unsigned long SPLASH_DURATION = 2500;  // 2.5 second splash screen
+  
+  while (millis() - startTime < SPLASH_DURATION) {
+    unsigned long elapsed = millis() - startTime;
+    float progress = (float)elapsed / SPLASH_DURATION;
+    uint8_t alpha = (uint8_t)(progress * 255);
+    
+    ReactorUI::display.clearDisplay();
+    ReactorUI::display.setTextColor(SSD1306_WHITE);
+    
+    // Draw title with fade-in effect (simple: just draw after 200ms)
+    if (elapsed > 200) {
+      ReactorUI::display.setTextSize(2);
+      int16_t x1, y1;
+      uint16_t w, h;
+      ReactorUI::display.getTextBounds("CORE", 0, 0, &x1, &y1, &w, &h);
+      int16_t x = (ReactorUI::display.width() - (int)w) / 2;
+      ReactorUI::display.setCursor(x, 8);
+      ReactorUI::display.println("CORE");
+      
+      ReactorUI::display.getTextBounds("MELTDOWN", 0, 0, &x1, &y1, &w, &h);
+      x = (ReactorUI::display.width() - (int)w) / 2;
+      ReactorUI::display.setCursor(x, 26);
+      ReactorUI::display.println("MELTDOWN");
+    }
+    
+    // Draw progress bar at bottom
+    const uint8_t pbY = 50;
+    const uint8_t pbHeight = 8;
+    const uint8_t leftX = 8;
+    const uint8_t rightX = ReactorUI::display.width() - 8;
+    const uint8_t pbWidth = rightX - leftX;
+    
+    // Border
+    ReactorUI::display.drawRect(leftX, pbY, pbWidth, pbHeight, SSD1306_WHITE);
+    
+    // Fill bar - grows from left to right
+    uint8_t fillW = (uint8_t)(pbWidth * progress);
+    if (fillW > 0) {
+      ReactorUI::display.fillRect(leftX + 1, pbY + 1, fillW - 1, pbHeight - 2, SSD1306_WHITE);
+    }
+    
+    // Bottom text
+    ReactorUI::display.setTextSize(1);
+    ReactorUI::display.setCursor(35, 61);
+    ReactorUI::display.print("POWERING UP");
+    
+    // Animated particles at top during splash
+    ReactorAnimations::drawDecayParticles(ReactorUI::display, millis());
+    
+    ReactorUI::display.display();
+    delay(30);  // ~33 FPS
+  }
+}
+
 void renderStableUIFrame() {
   ReactorUI::UIMetrics m;
   m.heatPercent = currentHeatPercent();
