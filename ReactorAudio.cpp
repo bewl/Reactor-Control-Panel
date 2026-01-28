@@ -52,53 +52,50 @@ void tickMute() {
 }
 
 void playFinalCountdown() {
-  // The ACTUAL "Final Countdown" keyboard motif by Europe
-  // Transcribed from the official sheet music at 90 BPM
+  // Transcribed EXACTLY from the provided sheet music
+  // 90 BPM, 4/4 time, F# minor
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
   };
   
-  // At 90 BPM: quarter note = 667ms, eighth = 333ms, sixteenth = 167ms
+  // At 90 BPM: quarter = 667ms, eighth = 333ms, sixteenth = 167ms, grace = ~80ms
   const Note melody[] = {
-    // Bar 1: F#m chord - main motif with grace notes
-    {740, 150},   // F#5 (grace note)
-    {880, 150},   // A5 (grace note)
-    {740, 333},   // F#5 (eighth note)
+    // Bar 1 (F#m): Grace notes + repeated A notes
+    {880, 80},    // A5 (grace)
+    {988, 80},    // B5 (grace) 
+    {1047, 80},   // C6 (grace)
     {880, 333},   // A5 (eighth)
     
-    {740, 150},   // F#5 (grace note)
-    {880, 150},   // A5 (grace note)
-    {740, 333},   // F#5 (eighth)
-    {880, 150},   // A5 (grace note)
-    {740, 333},   // F#5 (eighth)
+    {880, 80},    // A5 (grace)
+    {988, 80},    // B5 (grace)
+    {1047, 80},   // C6 (grace)
+    {880, 333},   // A5 (eighth)
     {880, 333},   // A5 (eighth)
     
-    // Bar 2: D chord
-    {740, 150},   // F#5 (grace note)
-    {880, 150},   // A5 (grace note)
-    {740, 333},   // F#5 (eighth)
+    // Bar 2 (D): Grace notes + descent
+    {880, 80},    // A5 (grace)
+    {988, 80},    // B5 (grace)
+    {1047, 80},   // C6 (grace)
     {880, 333},   // A5 (eighth)
-    {740, 250},   // F#5
-    {659, 250},   // E5
-    {587, 333},   // D5 (eighth)
+    {988, 333},   // B5 (eighth)
+    {1047, 333},  // C6 (eighth)
     
-    // Bar 3: Bm chord  
-    {740, 150},   // F#5 (grace note)
-    {880, 150},   // A5 (grace note)
-    {740, 333},   // F#5 (eighth)
+    // Bar 3 (Bm): Grace notes + repeated
+    {880, 80},    // A5 (grace)
+    {988, 80},    // B5 (grace)
+    {1047, 80},   // C6 (grace)
     {880, 333},   // A5 (eighth)
     
-    // Bar 4: E chord - ending phrase
-    {740, 150},   // F#5 (grace note)
-    {880, 150},   // A5 (grace note)
-    {740, 333},   // F#5 (eighth)
-    {880, 250},   // A5
-    {988, 250},   // B5
-    {1047, 250},  // C#6
-    {587, 333},   // D5 (eighth)
-    {659, 667},   // E5 (quarter note, held)
-    {0, 333},     // Rest
+    // Bar 4 (E): Grace notes + ascending run
+    {880, 80},    // A5 (grace)
+    {988, 80},    // B5 (grace)
+    {1047, 80},   // C6 (grace)
+    {880, 333},   // A5 (eighth)
+    {988, 333},   // B5 (eighth)
+    {1047, 333},  // C6 (eighth)
+    {1175, 333},  // D6 (eighth)
+    {1319, 667},  // E6 (quarter - held)
   };
   
   const uint8_t numNotes = sizeof(melody) / sizeof(Note);
