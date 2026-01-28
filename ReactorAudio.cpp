@@ -52,8 +52,8 @@ void tickMute() {
 }
 
 void playFinalCountdown() {
-  // "Final Countdown" - transcribed from sheet music
-  // Key: F# minor (4 sharps), 90 BPM, 4/4 time
+  // "Final Countdown" - transcribed from treble clef score
+  // Key: A major/F# minor (3 sharps), 90 BPM, 4/4 time
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
@@ -61,33 +61,33 @@ void playFinalCountdown() {
   
   // At 90 BPM: quarter = 667ms, eighth = 333ms, triplet eighth = 222ms
   const Note melody[] = {
-    // Bar 1 (F#m): Triplet figure - accented notes
-    {740, 222},   // F#5 (triplet eighth)
-    {880, 222},   // A5 (triplet eighth)
-    {988, 222},   // B5 (triplet eighth)
+    // Bar 1: Triplet figure on single note
+    {1047, 222},  // C#6 (triplet)
+    {880, 222},   // A5 (triplet)
+    {1047, 222},  // C#6 (triplet)
+    {880, 667},   // A5 (quarter)
+    
+    // Bar 2: Triplet + two eighths
+    {1047, 222},  // C#6 (triplet)
+    {880, 222},   // A5 (triplet)
+    {1047, 222},  // C#6 (triplet)
+    {880, 333},   // A5 (eighth)
     {880, 333},   // A5 (eighth)
     
-    // Bar 2 (D): Triplet figure
-    {740, 222},   // F#5 (triplet eighth)
-    {880, 222},   // A5 (triplet eighth)
-    {988, 222},   // B5 (triplet eighth)
-    {880, 333},   // A5 (eighth)
-    {880, 333},   // A5 (eighth)
+    // Bar 3: Triplet + eighth
+    {880, 222},   // A5 (triplet)
+    {1047, 222},  // C#6 (triplet)
+    {880, 222},   // A5 (triplet)
+    {880, 667},   // A5 (quarter)
     
-    // Bar 3 (Bm): Triplet figure  
-    {880, 222},   // A5 (triplet eighth)
-    {740, 222},   // F#5 (triplet eighth)
-    {880, 222},   // A5 (triplet eighth)
-    {880, 333},   // A5 (eighth)
-    
-    // Bar 4 (E): Triplet figure + held notes
-    {740, 222},   // F#5 (triplet eighth)
-    {880, 222},   // A5 (triplet eighth)
-    {988, 222},   // B5 (triplet eighth)
-    {1047, 222},  // C#6 (triplet eighth)
-    {1175, 222},  // D6 (triplet eighth)
-    {1319, 222},  // E6 (triplet eighth)
-    {1319, 1334}, // E6 (held - whole note duration)
+    // Bar 4: Triplet + ascending sixteenth run
+    {1047, 222},  // C#6 (triplet)
+    {880, 222},   // A5 (triplet)
+    {988, 222},   // B5 (triplet)
+    {1047, 167},  // C#6 (sixteenth)
+    {1175, 167},  // D6 (sixteenth)
+    {1319, 167},  // E6 (sixteenth)
+    {1397, 167},  // F#6 (sixteenth)
   };
   
   const uint8_t numNotes = sizeof(melody) / sizeof(Note);
