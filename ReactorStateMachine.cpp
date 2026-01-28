@@ -27,11 +27,12 @@ const uint8_t ARM_BLINKS = 5;
 Mode currentMode = MODE_STABLE;
 
 // Sequence timing
+unsigned long armingStartAt = 0;    // 5 second countdown
 unsigned long stabStartAt = 0;
 unsigned long freezeStartAt = 0;
 unsigned long startupStartAt = 0;
 unsigned long shutdownStartAt = 0;
-unsigned long meltdownStartAt = 0;
+unsigned long meltdownStartAt = 0;  // 10 second countdown
 
 // ======================= Helpers =======================
 inline void buzzerOff() { ReactorAudio::off(); }
@@ -58,13 +59,13 @@ void enterArming() {
   ReactorSweep::stop();
   currentMode = MODE_ARMING;
   ReactorSequences::reset();
+  armingStartAt = millis();  // Start 5 second countdown
 
   digitalWrite(PIN_LED_STABLE, LOW);
   digitalWrite(PIN_LED_MELTDOWN, LOW);
   digitalWrite(PIN_LED_STARTUP, LOW);
   digitalWrite(PIN_LED_FREEZEDOWN, LOW);
   buzzerOff();
-  ReactorSequences::drawArmingNumber(ARM_BLINKS);
 }
 
 void enterMeltdown() {

@@ -196,6 +196,14 @@ void tick() {
   // ---- Check for sequence completions ----
   unsigned long now = millis();
   
+  // Arming auto-completes after 5 seconds -> enters STABILIZING
+  if (ReactorStateMachine::getMode() == MODE_ARMING) {
+    unsigned long elapsed = now - ReactorStateMachine::armingStartAt;
+    if (elapsed >= 5000) {  // 5 second countdown
+      ReactorStateMachine::enterStabilizing();
+    }
+  }
+  
   // Stabilizing completes after STAB_TOTAL_STEPS steps
   if (ReactorStateMachine::getMode() == MODE_STABILIZING) {
     unsigned long elapsed = now - ReactorStateMachine::stabStartAt;

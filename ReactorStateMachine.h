@@ -4,11 +4,12 @@
 
 namespace ReactorStateMachine {
   // State variables (accessible for timing checks in ReactorSystem)
+  extern unsigned long armingStartAt;      // Arming countdown timer (5 seconds)
   extern unsigned long stabStartAt;
   extern unsigned long freezeStartAt;
   extern unsigned long startupStartAt;
   extern unsigned long shutdownStartAt;
-  extern unsigned long meltdownStartAt;
+  extern unsigned long meltdownStartAt;    // Meltdown countdown timer (10 seconds)
 
   // Get current mode
   Mode getMode();

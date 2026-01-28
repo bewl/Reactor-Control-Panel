@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include "ReactorTypes.h"
+#include "ReactorAnimations.h"
 
 namespace ReactorUIFrames {
   void drawCoreStatus(bool warning);
