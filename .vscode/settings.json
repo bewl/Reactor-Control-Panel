@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^\\$file = \"c:\\\\Users\\\\usarm\\\\source\\\\repos\\\\Reactor-Control-Panel\\\\ReactorSystem\\.cpp\"; \\$content = Get-Content \\$file -Raw; \\$pattern = \"void tickFreezedown\\\\\\(\\\\\\) \\\\\\{`n  unsigned long now = millis\\\\\\(\\\\\\);`n`n  // Pulse the FREEZEDOWN LED slowly`n  if \\\\\\(now - freezeLedAt >= \\\\\\(FREEZE_LED_PERIOD_MS / 2\\\\\\)\\\\\\) \\\\\\{`n    freezeLedAt = now;`n    freezeLedOn = !freezeLedOn;`n    digitalWrite\\\\\\(PIN_LED_FREEZEDOWN, freezeLedOn \\\\\\? HIGH : LOW\\\\\\);`n  \\\\\\}`n`n  // Alternate a low cooling alarm`n  if \\\\\\(now - freezeAlarmAt >= FREEZE_ALARM_PERIOD_MS\\\\\\) \\\\\\{`n    freezeAlarmAt = now;`n    freezeAlarmHigh = !freezeAlarmHigh;`n    buzzerTone\\\\\\(freezeAlarmHigh \\\\\\? FREEZE_ALARM_HIGH_HZ : FREEZE_ALARM_LOW_HZ\\\\\\);`n  \\\\\\}`n\\\\\\}`n`n`n\"; \\$new = \\$content -replace \\[regex\\]::Escape\\(\\$pattern\\), \"\"; Set-Content \\$file \\$new$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
