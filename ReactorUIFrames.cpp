@@ -45,10 +45,19 @@ void drawPowerOnSplash() {
   unsigned long startTime = millis();
   const unsigned long SPLASH_DURATION = 2500;  // 2.5 second splash screen
   
+  // Start playing the Final Countdown theme
+  bool musicStarted = false;
+  
   while (millis() - startTime < SPLASH_DURATION) {
     unsigned long elapsed = millis() - startTime;
     float progress = (float)elapsed / SPLASH_DURATION;
     uint8_t alpha = (uint8_t)(progress * 255);
+    
+    // Start music after 200ms (when text appears)
+    if (elapsed > 200 && !musicStarted) {
+      musicStarted = true;
+      ReactorAudio::playFinalCountdown();
+    }
     
     ReactorUI::display.clearDisplay();
     ReactorUI::display.setTextColor(SSD1306_WHITE);

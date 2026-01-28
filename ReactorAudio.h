@@ -10,5 +10,6 @@ void off();
 void muteFor(unsigned long ms);
 bool isMuted();
 void tickMute();
+void playFinalCountdown();
 
 } // namespace ReactorAudio

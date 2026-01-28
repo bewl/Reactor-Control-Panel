@@ -51,4 +51,51 @@ void tickMute() {
   }
 }
 
+void playFinalCountdown() {
+  // The iconic "Final Countdown" synth riff by Europe
+  // Frequencies and durations for the classic melody motif
+  struct Note {
+    unsigned int freq;
+    unsigned int durationMs;
+  };
+  
+  const Note melody[] = {
+    // Main riff - iconic descending pattern
+    {659, 200},   // E5
+    {659, 200},   // E5
+    {659, 200},   // E5
+    {1047, 200},  // C6
+    {659, 200},   // E5
+    {1047, 200},  // C6
+    {523, 200},   // C5
+    {494, 200},   // B4
+    {494, 200},   // B4
+    {494, 200},   // B4
+    {784, 200},   // G5
+    {880, 200},   // A5
+    {659, 200},   // E5
+    {659, 200},   // E5
+    {659, 200},   // E5
+    {1047, 200},  // C6
+    {659, 200},   // E5
+    {1047, 200},  // C6
+    {523, 200},   // C5
+    {494, 200},   // B4
+    {0, 400},     // Rest for dramatic pause
+  };
+  
+  const uint8_t numNotes = sizeof(melody) / sizeof(Note);
+  
+  for (uint8_t i = 0; i < numNotes; i++) {
+    if (melody[i].freq > 0) {
+      toneHz(melody[i].freq);
+    } else {
+      off();
+    }
+    delay(melody[i].durationMs);
+  }
+  
+  off();
+}
+
 } // namespace ReactorAudio
