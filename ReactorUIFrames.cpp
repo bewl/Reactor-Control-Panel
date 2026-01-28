@@ -63,10 +63,10 @@ void drawPowerOnSplash() {
   
   // Bottom text
   ReactorUI::display.setTextSize(1);
-  ReactorUI::display.getTextBounds("REACTOR CONTROL", 0, 0, &x1, &y1, &w, &h);
+  ReactorUI::display.getTextBounds("INITIALIZING", 0, 0, &x1, &y1, &w, &h);
   x = (ReactorUI::display.width() - (int)w) / 2;
-  ReactorUI::display.setCursor(x, 52);
-  ReactorUI::display.print("REACTOR CONTROL");
+  ReactorUI::display.setCursor(x, 54);
+  ReactorUI::display.print("INITIALIZING");
   
   ReactorUI::display.display();
   
