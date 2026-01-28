@@ -153,17 +153,37 @@ void renderActiveUIFrame(Mode mode, unsigned long meltdownStartAt) {
       
       int seconds = (remain + 999) / 1000;  // Ceiling division to round up
       
-      // Render standard UI with MODE_STABLE (to avoid old countdown rendering)
-      ReactorUI::ui.render(MODE_STABLE, m, isMuted());
-      
-      ReactorUI::display.setTextSize(3);
+      // Clear and start fresh
+      ReactorUI::display.clearDisplay();
       ReactorUI::display.setTextColor(SSD1306_WHITE);
+      
+      // Draw header bar with MELTDOWN label
+      ReactorUI::display.drawLine(0, 10, ReactorUI::display.width()-1, 10, SSD1306_WHITE);
+      ReactorUI::display.setTextSize(1);
+      ReactorUI::display.setCursor(2, 1);
+      ReactorUI::display.print("MELTDOWN");
+      
+      // Draw heat bar (max heat during meltdown)
+      const uint8_t topY = 14;
+      const uint8_t h = 8;
+      const uint8_t leftX = 8;
+      const uint8_t rightX = ReactorUI::display.width() - 8;
+      const uint8_t w = rightX - leftX;
+      ReactorUI::display.drawRect(leftX, topY, w, h, SSD1306_WHITE);
+      ReactorUI::display.fillRect(leftX+1, topY+1, w-2, h-2, SSD1306_WHITE);  // Full heat bar
+      for (int i=0;i<=10;i++) {
+        int x = leftX + (int)((w-2) * i / 10.0f) + 1;
+        ReactorUI::display.drawPixel(x, topY + h + 1, SSD1306_WHITE);
+      }
+      
+      // Draw countdown
+      ReactorUI::display.setTextSize(3);
       char buf[4];
       snprintf(buf, sizeof(buf), "%d", seconds);
       int16_t x1, y1;
-      uint16_t w, h;
-      ReactorUI::display.getTextBounds(buf, 0, 0, &x1, &y1, &w, &h);
-      int16_t x = (ReactorUI::display.width() - (int)w) / 2;
+      uint16_t bw, bh;
+      ReactorUI::display.getTextBounds(buf, 0, 0, &x1, &y1, &bw, &bh);
+      int16_t x = (ReactorUI::display.width() - (int)bw) / 2;
       int16_t y = 35;
       ReactorUI::display.setCursor(x, y);
       ReactorUI::display.println(buf);
