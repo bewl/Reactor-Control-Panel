@@ -52,43 +52,42 @@ void tickMute() {
 }
 
 void playFinalCountdown() {
-  // The iconic "Final Countdown" synth riff by Europe
-  // Much simpler and more recognizable version
+  // The ACTUAL iconic "Final Countdown" keyboard riff by Europe
+  // This is the famous opening synth fanfare
   struct Note {
     unsigned int freq;
     unsigned int durationMs;
   };
   
+  // Key of F# minor - the real melody!
   const Note melody[] = {
-    // Main synth motif - the classic repeating pattern
-    {784, 250},   // G5 - High note
-    {784, 250},   // G5
-    {784, 250},   // G5
-    {659, 250},   // E5 - Drop down
-    {784, 250},   // G5 - Back up
-    {784, 250},   // G5
-    {784, 250},   // G5
-    {659, 250},   // E5
-    {0, 150},     // Rest
+    // First phrase: "doo doo doo DOO doo" 
+    {740, 200},   // F#5
+    {740, 200},   // F#5  
+    {587, 200},   // D5
+    {554, 400},   // C#5 (held longer)
+    {0, 100},     // Short rest
     
-    // Repeat pattern slightly lower
-    {784, 250},   // G5
-    {784, 250},   // G5
-    {784, 250},   // G5
-    {659, 250},   // E5
-    {784, 250},   // G5
-    {784, 250},   // G5
-    {784, 250},   // G5
-    {659, 250},   // E5
-    {0, 150},     // Rest
-    
-    // One more time with a finish
-    {784, 200},   // G5
-    {784, 200},   // G5
-    {784, 200},   // G5
+    // Second phrase: descending pattern
+    {740, 200},   // F#5
     {659, 200},   // E5
-    {880, 300},   // A5 - High finish
-    {0, 400},     // Rest for dramatic pause
+    {587, 200},   // D5  
+    {554, 400},   // C#5 (held)
+    {0, 150},     // Rest
+    
+    // Repeat first phrase
+    {740, 200},   // F#5
+    {740, 200},   // F#5
+    {587, 200},   // D5
+    {554, 400},   // C#5
+    {0, 100},     // Short rest
+    
+    // Final phrase with slight variation
+    {740, 200},   // F#5
+    {659, 200},   // E5
+    {587, 200},   // D5
+    {494, 600},   // B4 (finish note, held longer)
+    {0, 300},     // Final rest
   };
   
   const uint8_t numNotes = sizeof(melody) / sizeof(Note);
